@@ -1,9 +1,9 @@
 const fs = require('fs');
 
-// fs.writeFile('message.txt', 'Hello, Node.js!', (err) => {
-//   if (err) throw err;
-//   console.log('The file has been saved!');
-// });
+fs.writeFile('message.txt', 'Hello, Node.js!', (err) => {
+  if (err) throw err;
+  console.log('The file has been saved!');
+});
 
 // fs.readFile('message.txt', 'utf8', (err, data) => {
 //   if (err) throw err;
@@ -40,10 +40,10 @@ const fs = require('fs');
 //   console.log('The copied file has been deleted!');
 // }   );
 
-fs.rmdir('testDir', { recursive: true }, (err) => {
-  if (err) throw err;
-  console.log('The directory has been removed!');
-});
+// fs.rmdir('testDir', { recursive: true }, (err) => {
+//   if (err) throw err;
+//   console.log('The directory has been removed!');
+// });
 
 
 // fs.mkdir('testDir', (err) => {
