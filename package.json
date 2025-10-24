@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "accessibility": "^3.0.9",
+    "express": "^5.1.0",
     "one-liner-joke": "^1.2.2"
   },
   "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "start": "node script.js",
     "test": "echo \"Error: no test specified\" && exit 1"
