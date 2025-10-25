@@ -1,0 +1,1 @@
+alert("Hello World! Welcome to Dynamic Routing with EJS in Express.js");
