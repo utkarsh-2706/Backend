@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= note.title %> — Note</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-900 min-h-screen text-zinc-800">
+  <div class="max-w-3xl mx-auto py-12 px-4">
+    <div class="relative bg-white rounded-lg shadow p-6 max-h-[80vh] overflow-hidden flex flex-col">
+      <a href="/" class="absolute left-4 top-4 text-zinc-600 hover:text-zinc-900">← Back</a>
+      <button onclick="window.close()" class="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-600">×</button>
+
+      <h1 class="text-2xl font-semibold text-zinc-900 mb-4"><%= note.title %></h1>
+
+      <!-- Rename form -->
+      <form action="/file/<%= encodeURIComponent(note.filename) %>/rename" method="POST" class="mb-4 flex gap-2">
+        <input name="newName" required
+               value="<%= note.title %>"
+               class="flex-1 border rounded px-3 py-2"
+               placeholder="New filename (without extension)">
+        <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded">Rename</button>
+      </form>
+
+      <!-- Edit contents form -->
+      <form action="/file/<%= encodeURIComponent(note.filename) %>/edit" method="POST" class="flex flex-col flex-1">
+        <label class="sr-only" for="content">Content</label>
+        <textarea id="content" name="content" rows="12"
+                  class="w-full border rounded p-3 mb-3 resize-none overflow-y-auto flex-1 whitespace-pre-wrap"
+                  required><%= note.content %></textarea>
+
+        <div class="flex justify-end gap-2">
+          <a href="/" class="inline-block bg-zinc-200 hover:bg-zinc-300 text-zinc-900 px-3 py-2 rounded">Back</a>
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

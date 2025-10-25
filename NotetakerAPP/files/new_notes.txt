@@ -1,0 +1,213 @@
+🧠 Backend Development Notes
+
+
+1️⃣ Introduction to Node.js
+🔹 What is Node.js?
+Node.js is a JavaScript runtime environment that lets you run JS code outside the browser.
+Built on Chrome’s V8 engine.
+Allows server-side scripting, API handling, database connection, etc.
+🔹 Why use Node.js?
+Fast and lightweight (asynchronous + non-blocking I/O).
+Single-threaded with event-driven architecture.
+Cross-platform and open-source.
+Has npm (Node Package Manager) with thousands of libraries.
+🔹 Use cases:
+REST APIs & Microservices
+Real-time apps (Chat apps, Live updates)
+File system automation
+🔹 What is npm?
+A package manager for Node.js.
+Used to install, manage, and update dependencies.
+
+2️⃣ Working with Modules
+🔹 What are Modules?
+Reusable blocks of code that can be imported and exported.
+Node has:
+Built-in modules (like fs, os, path, http)
+Custom modules (your own files)
+Third-party modules (from npm)
+3️⃣ File System (fs) Module
+
+	const fs = require('fs');
+	fs.writeFileSync('hello.txt', 'Hello, Node.js!');
+	const data = fs.readFileSync('hello.txt', 'utf-8');
+console.log(data);
+	
+	— ….. —  all func on github
+
+4️⃣ HTTP Module
+🔹 Used to create servers and handle requests/responses.
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello, Utkarsh! Welcome to Node.js Server');
+});
+
+server.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+
+createServer() → creates an HTTP server.
+req → request object (info about incoming request).
+res → response object (send data back).
+listen(port) → starts server on given port.
+
+
+
+Important Files Recap
+File
+Purpose
+package.json
+Metadata + dependency list + scripts
+package-lock.json
+Exact dependency tree & versions
+node_modules/
+Actual installed packages
+.gitignore
+To exclude node_modules, logs, etc.
+
+🚀 Express.js – Introduction, Setup, Routing, Middleware, Request/Response, Error Handling
+
+
+1️⃣ Introduction to Express.js
+🔹 What is Express.js?
+Express.js is a minimal and flexible Node.js framework for building web applications and APIs.
+It simplifies server creation, routing, and middleware handling.
+Built on top of Node’s HTTP module.
+🔹 Why use Express?
+✅ Easier & cleaner syntax than raw Node.js
+ ✅ Built-in routing & middleware system
+ ✅ Faster development for REST APIs
+ ✅ Handles JSON, forms, and static files easily
+
+
+2️⃣ Setting Up a Basic Express Application
+
+const express = require('express');
+const app = express();
+const PORT = 3000;
+
+// Route
+app.get('/', (req, res) => {
+  res.send('Hello, Utkarsh! Welcome to Express.js');
+});
+
+// Start Server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+
+
+
+
+3️⃣ Routing in Express.js
+🔹 What is Routing?
+Routing refers to defining endpoints (URIs) and how the server responds to client requests (GET, POST, etc.).
+// GET request
+app.get('/', (req, res) => {
+  res.send('Home Page');
+});
+
+// POST request
+app.post('/submit', (req, res) => {
+  res.send('Form Submitted!');
+});
+
+// PUT request
+app.put('/update', (req, res) => {
+  res.send('Data Updated!');
+});
+
+// DELETE request
+app.delete('/delete', (req, res) => {
+  res.send('Data Deleted!');
+});
+
+
+4️⃣ Middleware in Express.js
+🔹 What is Middleware?
+Middleware is any function that runs between request and response.
+It can:
+Access req/res
+Modify data
+End request/response cycle
+Pass control to the next middleware
+
+
+🧩 Structure
+app.use((req, res, next) => {
+  console.log('Middleware executed!');
+  next(); // pass control to next middleware
+});
+
+5️⃣ Request & Response Handling (req, res)
+🔹 Request Object (req)
+Contains info about the incoming HTTP request:
+req.params → Route parameters
+req.query → Query parameters
+req.body → Request body (used with middleware)
+req.headers → Request headers
+🔹 Response Object (res)
+Used to send data back to client.
+Method
+Description
+res.send()
+Send text, HTML, or object
+res.json()
+Send JSON data
+res.status()
+Set HTTP status code
+
+
+
+
+
+1️⃣ Form Handling in Express.js
+🔹 Why?
+To receive form data (from HTML forms) sent via POST method.
+app.use(express.urlencoded({ extended: true }));
+Parses data sent from HTML forms (application/x-www-form-urlencoded).
+Adds data to req.body.
+2️⃣ Request & Response Parsing
+🔹 Body Parsing (JSON)
+app.use(express.json());
+Parses JSON data in requests (e.g., API requests from frontend or Postman).
+3️⃣ Cookies 🍪
+🔹 What are Cookies?
+Small data pieces stored on the client side, sent along with each request.
+ Used for preferences, authentication, etc.
+4️⃣ Sessions 💾
+🔹 What are Sessions?
+Sessions store user data on the server for a specific client using a unique session ID (sent in a cookie).
+ Used for authentication, user login tracking, etc.
+5️⃣ EJS (Embedded JavaScript Templates)
+🔹 What is EJS?
+EJS allows you to embed JS inside HTML to render dynamic content on the server.
+🧩 Step 1: Install EJS
+npm install ejs
+🧩 Step 2: Set View Engine
+app.set('view engine', 'ejs');
+🧩 Step 3: Create a views/ Folder
+📁 Project structure:
+project/
+ ├─ views/
+ │   ├─ index.ejs
+ │   └─ profile.ejs
+ └─ server.js
+
+<h1>Welcome <%= user.name %>!</h1>
+<p>Age: <%= user.age %></p>
+✅ <%= %> is used to display dynamic values.
+✅ <% %> is used for logic (loops, conditions, etc.).
+
+7️⃣ Basic Project Setup 🧩
+📁 Folder Structure (Recommended)
+project/
+ ├─ public/          → static files (css, js, images)
+ ├─ views/           → ejs templates
+ ├─ routes/          → route files (optional)
+ ├─ app.js           → main express app
+ └─ package.json
+
+

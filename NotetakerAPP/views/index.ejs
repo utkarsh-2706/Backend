@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Notes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/javascripts/script.js" defer></script>
+</head>
+<body class="bg-zinc-900 min-h-screen text-zinc-800">
+    <div class="max-w-4xl mx-auto py-12 px-4">
+        <h1 class="text-3xl font-semibold text-white mb-6">Notetaker</h1>
+
+        <!-- Note form -->
+        <section class="bg-zinc-800 p-6 rounded-lg mb-8">
+            <form action="/notes" method="POST" class="space-y-4">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-zinc-200 mb-1">Title</label>
+                    <input id="title" name="title" required
+                        class="w-full rounded px-3 py-2 bg-zinc-900 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter a title for your note">
+                </div>
+
+                <div>
+                    <label for="content" class="block text-sm font-medium text-zinc-200 mb-1">Content</label>
+                    <textarea id="content" name="content" rows="4" required
+                        class="w-full rounded px-3 py-2 bg-zinc-900 text-white border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Write your note content here..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                    Add Note
+                </button>
+            </form>
+        </section>
+
+        <!-- Notes list -->
+        <section>
+            <h2 class="text-2xl font-semibold text-white mb-4">Your Notes</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <% if (typeof notes !== 'undefined' && notes.length > 0) { %>
+                    <% notes.forEach(function(note, idx) { %>
+                        <div class="bg-zinc-800 p-6 rounded-lg shadow-lg relative flex flex-col min-h-[200px] transform hover:scale-105 transition-transform duration-200">
+                            <div class="absolute -top-3 -left-3 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold z-10">
+                                <%= idx + 1 %>
+                            </div>
+
+                            <h3 class="font-bold text-lg text-white mb-3 ml-6"><%= note.title || 'Untitled' %></h3>
+                            <p class="text-zinc-300 flex-grow overflow-hidden line-clamp-3 ml-6">
+                                <%= (note.content || '').length > 150 ? (note.content || '').slice(0,150) + '...' : (note.content || '') %>
+                            </p>
+
+                            <div class="mt-4 flex justify-between items-center ml-6">
+                                <div>
+                                    <button type="button"
+                                        class="read-more-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-200"
+                                        data-title="<%= (note.title || '').replace(/"/g, '&quot;') %>"
+                                        data-content="<%= (note.content || '').replace(/"/g, '&quot;') %>"
+                                        data-filename="<%= note.filename %>">
+                                        Read more
+                                    </button>
+                                </div>
+
+                                <!-- Open in dedicated route -->
+                                <div>
+                                    <a href="/file/<%= encodeURIComponent(note.filename) %>"
+                                       target="_blank"
+                                       class="bg-zinc-700 hover:bg-zinc-600 text-white px-3 py-2 rounded-lg text-sm">
+                                       Open
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="col-span-3">
+                        <p class="text-zinc-400 text-center">No notes available. Start by adding a new note above!</p>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+    </div>
+
+    <!-- Read More Modal -->
+    <div id="noteModal" class="fixed inset-0 hidden items-center justify-center bg-black/50 z-50">
+        <div class="bg-white rounded-lg w-11/12 max-w-2xl p-6 relative max-h-[80vh] flex flex-col">
+            <button id="modalClose" class="absolute -top-3 -right-3 bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-600">
+                ×
+            </button>
+            <h3 id="modalTitle" class="text-xl font-semibold text-zinc-900 mb-4 pr-6"></h3>
+            <div id="modalContent" class="prose text-zinc-800 whitespace-pre-wrap overflow-y-auto flex-1"></div>
+        </div>
+    </div>
+
+</body>
+</html>
