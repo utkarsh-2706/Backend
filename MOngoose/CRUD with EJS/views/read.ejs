@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>All Users</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-zinc-900 text-white">
+    <% 
+        // defensive: ensure we always iterate an array
+        var usersList = Array.isArray(users) ? users : [];
+    %>
+
+    <main class="max-w-6xl mx-auto p-6">
+        <header class="flex items-center justify-between mb-8">
+            <div>
+                <a href="/" class="text-sm text-blue-400 hover:underline">← Back</a>
+                <h1 class="text-3xl font-semibold tracking-tight mt-2">All Users</h1>
+                <p class="text-gray-400 mt-1">Manage users — edit or delete entries</p>
+            </div>
+
+            <a href="/" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded shadow">
+                Add User
+            </a>
+        </header>
+
+        <% if (usersList.length === 0) { %>
+            <div class="rounded-lg bg-white/5 p-8 text-center">
+                <p class="text-gray-300 mb-4">No users found.</p>
+                <a href="/" class="text-blue-400 hover:underline">Create the first user</a>
+            </div>
+        <% } else { %>
+            <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <% usersList.forEach(function(user) { %>
+                    <article class="bg-white/5 backdrop-blur-sm p-5 rounded-lg shadow flex flex-col items-center">
+                        <% if (user.image) { %>
+                            <img src="<%= user.image %>" alt="<%= user.name %>" class="w-24 h-24 rounded-full mb-4 object-cover border-2 border-white/10" onerror="this.style.display='none';" />
+                        <% } else { %>
+                            <div class="w-24 h-24 rounded-full bg-red-600 mb-4 flex items-center justify-center text-white text-2xl font-bold">
+                                <%= (user.name && user.name.length) ? user.name[0].toUpperCase() : '?' %>
+                            </div>
+                        <% } %>
+
+                        <h2 class="text-lg font-semibold text-white text-center"><%= user.name %></h2>
+                        <p class="text-sm text-gray-300 mb-4 text-center"><%= user.email %></p>
+
+                        <div class="mt-auto w-full flex gap-3">
+                            <a href="/edit/<%= user._id %>" class="flex-1 text-center px-3 py-2 bg-yellow-500 hover:bg-yellow-600 rounded text-sm text-white">
+                                Edit
+                            </a>
+
+                            <form action="/delete/<%= user._id %>" method="POST" class="flex-1" onsubmit="return confirm('Delete this user?');">
+                                <button type="submit" class="w-full px-3 py-2 bg-red-600 hover:bg-red-700 rounded text-sm text-white">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </article>
+                <% }); %>
+            </section>
+        <% } %>
+    </main>
+</body>
+</html>
