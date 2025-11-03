@@ -34,6 +34,19 @@ app.post('/create', async (req, res) => {
 
 });
 
+app.post('/edit/:id', async (req, res) => {
+    let { id } = req.params;
+    let { name, email, image } = req.body;
+
+    let updatedUser = await userModel.findOneAndUpdate({ _id: id }, {
+        name,
+        email,
+        image
+    }, { new: true });
+
+    res.redirect('/read');
+});
+
 app.post('/delete/:id', async (req, res) => {
     let { id } = req.params;
     let deletedUser = await userModel.findOneAndDelete({ _id: id });
