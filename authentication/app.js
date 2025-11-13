@@ -24,7 +24,7 @@ app.get('/password', (req, res) => {
     bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash('myPlaintextPassword', salt, (err, hash) => {
             console.log(salt);
-            console.log(`Hashed password: ${hash}`);
+            console.log(`Hashed password : ${hash}`);
         });
     });
 });
